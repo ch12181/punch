@@ -1,0 +1,63 @@
+﻿@model List<project_punch.Models.employee>
+@{
+	ViewBag.Title = "employee";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row searchbar">
+				<div class="col-md-1">
+					<label for="text-input" class="form-control-label" style="margin-top:8px">搜尋：</label>
+				</div>
+				<div class="col-md-6">
+					<input type="search" class="col-md-8 light-table-filter form-control" data-table="order-table" placeholder="">
+				</div>
+			</div>
+			<br>
+			<div class="card">
+				<div class="card-header">
+					<strong class="card-title">員工列表</strong>
+				</div>
+				<div class="table-stats ov-h">
+					<table class="table order-table" id="emp-table">
+						<thead>
+							<tr>
+								<th class="serial">#</th>
+								<th>員工姓名</th>
+								<th>所屬部門</th>
+								<th>電話</th>
+								<th>詳細資料</th>
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								foreach (var employee in Model)
+								{
+									<tr>
+										<td>@employee.empID</td>
+										<td>@employee.empName</td>
+										<td>@employee.department</td>
+										<td>@employee.phone</td>
+										<td><button type="button" class="btn btn-primary" onclick="location.href='/Employee/Edit/@employee.empID'">修改</button></td>
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+					<span id='table_page' style="float:right"></span>
+				</div> <!-- /.table-stats -->
+			</div>
+		</div>
+	</div>
+</div>
+@section Script{
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="~/assets/js/jquery-tablepage-1.0.js"></script>
+	<script src="~/assets/js/attendance.js"></script>
+	<script type="text/javascript">
+		// 使用 TablePage 功能，參數1是放分頁的 HTML 物件，例如 span，參數2是每頁幾筆
+		$("#emp-table").tablepage($("#table_page"), 10);
+
+	</script>
+}

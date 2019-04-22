@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<title></title>
+	<style>
+		body {
+			background-color: #383a3e;
+			text-align: center;
+			color: #fafafa;
+		}
+
+		#container {
+			margin: 60px auto;
+			width: 500px;
+			height: 375px;
+			border: 0px #333 solid;
+		}
+
+		#videoElement {
+			margin: 20px auto;
+			width: 470px;
+			height: 353px;
+			background-color: #666;
+			transform: rotateY(180deg);
+			-webkit-transform: rotateY(180deg); /* Safari and Chrome */
+			-moz-transform: rotateY(180deg); /* Firefox */
+			border-radius: 10%;
+		}
+
+		#labl_name {
+			margin: 0px auto;
+			width: 500px;
+			height: 75px;
+			border: 10px #333 solid;
+		}
+
+		butten {
+			margin: 0px auto;
+			width: 100px;
+			height: 50px;
+			border: 10px #fff solid;
+		}
+
+		.turnup_btn {
+			margin: 0 auto;
+			width: 160px;
+			height: 160px;
+			border-radius: 100%;
+			position: fixed;
+			bottom: 10px;
+			right: 10.5px;
+			cursor: pointer;
+			border: none;
+			background: transparent;
+			outline: none;
+			z-index: 40;
+			border: 0px #c13f21 solid;
+		}
+		#snackbar {
+			visibility: hidden; /* Hidden by default. Visible on click */
+			min-width: 250px; /* Set a default minimum width */
+			margin-left: -125px; /* Divide value of min-width by 2 */
+			background-color: #333; /* Black background color */
+			color: #fff; /* White text color */
+			text-align: center; /* Centered text */
+			border-radius: 2px; /* Rounded borders */
+			padding: 16px; /* Padding */
+			position: fixed; /* Sit on top of the screen */
+			z-index: 1; /* Add a z-index if needed */
+			right: 0%; /* Center the snackbar */
+			bottom: 30px; /* 30px from the bottom */
+		}
+
+			/* Show the snackbar when clicking on a button (class added with JavaScript) */
+			#snackbar.show {
+				visibility: visible; /* Show the snackbar */
+				/* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+				However, delay the fade out process for 2.5 seconds */
+				-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+				animation: fadein 0.5s, fadeout 0.5s 2.5s;
+			}
+
+		/* Animations to fade the snackbar in and out */
+		@-webkit-keyframes fadein {
+			from {
+				bottom: 0;
+				opacity: 0;
+			}
+
+			to {
+				bottom: 30px;
+				opacity: 1;
+			}
+		}
+
+		@keyframes fadein {
+			from {
+				bottom: 0;
+				opacity: 0;
+			}
+
+			to {
+				bottom: 30px;
+				opacity: 1;
+			}
+		}
+
+		@-webkit-keyframes fadeout {
+			from {
+				bottom: 30px;
+				opacity: 1;
+			}
+
+			to {
+				bottom: 0;
+				opacity: 0;
+			}
+		}
+
+		@keyframes fadeout {
+			from {
+				bottom: 30px;
+				opacity: 1;
+			}
+
+			to {
+				bottom: 0;
+				opacity: 0;
+			}
+		}
+	</style>
+</head>
+<body>
+	<video autoplay id="videoElement"></video>
+	<br><br />
+	<div>
+		<canvas id="canvas"></canvas>
+		<button id="" class="turnup_btn"></button>
+	</div>
+	<div>
+		<canvas id="cvs" style="display:none;"></canvas>
+	</div>
+	<div id="snackbar">213</div>
+	<script type="text/javascript">
+		//====================================drawTime
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		var min, sec, hr, ms, amOrPm = 'AM';
+		var radH, radM, radS;
+		const threePIByTwo = (3 * Math.PI) / 2;
+		function init() {
+			canvas.width = 350; //document.documentElement.clientWidth - 1000;
+			canvas.height = 350; //document.documentElement.clientHeight - 365;//45
+			window.requestAnimationFrame(draw);
+		}
+
+		function draw(now) {
+			var centerX = canvas.width / 2,
+				centerY = canvas.height / 2,
+				date = new Date();
+			hr = date.getHours();
+			min = date.getMinutes();
+			sec = date.getSeconds();
+			ms = date.getMilliseconds();
+			if (hr > 12) {
+				amOrPm = 'PM';
+				hr -= 12;
+			}
+			radH = 0.000008333 * ((hr * 60 * 60 * 1000) + (min * 60 * 1000) + (sec * 1000) + ms);
+			radM = 0.0001 * ((min * 60 * 1000) + (sec * 1000) + ms);
+			radS = 0.006 * ((sec * 1000) + ms);
+			radMS = 0.365 * ms;
+
+			drawRect(0, 0, canvas.width, canvas.height, '#383a3e');
+			drawCircle(centerX, centerY, 150, threePIByTwo, rad(radMS) + threePIByTwo, true, '#eed9b7', 'stroke', 30);
+			drawCircle(centerX, centerY, 110, threePIByTwo, rad(radS) + threePIByTwo, false, '#d36e2c', 'stroke', 30);
+			drawCircle(centerX, centerY, 95, 0, Math.PI * 2, false, '#383a3e', 'fill', '50'); //inner
+
+			drawText("打卡點我", canvas.width / 2 - 48, canvas.height / 2 - 35, '#78aa9f', '25px');
+			drawText(`${hr.toString().length == 1 ? '0' + hr : hr}:${min.toString().length == 1 ? '0' + min : min}:${sec.toString().length == 1 ? '0' + sec : sec}`, canvas.width / 2 - 70, canvas.height / 2 + 15, '#eed9b7', '40px');
+			drawText(amOrPm, canvas.width / 2 - 20, canvas.height / 2 + 55, '#eed9b7', '32px');
+			window.requestAnimationFrame(draw);
+		}
+
+		init();
+
+		function rad(deg) {
+			return (Math.PI / 180) * deg;
+		}
+		function drawText(text, x, y, color, size) {
+			ctx.font = `${size} "Passion One"`;
+			ctx.fillStyle = color;
+			ctx.fillText(text, x, y);
+		}
+		function drawRect(x, y, width, height, color) {
+			ctx.fillStyle = color;
+			ctx.fillRect(x, y, width, height);
+		}
+		function drawArc(x, y, radius, start, end, clockwise) {
+			ctx.beginPath();
+			ctx.arc(x, y, radius, start, end, clockwise);
+		}
+		function drawCircle(x, y, radius, start, end, clockwise, color, type, thickness) {
+			if (type == 'fill') {
+				ctx.fillStyle = color;
+				drawArc(x, y, radius, start, end, clockwise)
+				ctx.fill();
+			}
+			else if (type == 'stroke') {
+				ctx.strokeStyle = color;
+				ctx.lineWidth = thickness;
+				drawArc(x, y, radius, start, end, clockwise)
+				ctx.stroke();
+			}
+		}
+		document.getElementById("canvas").addEventListener("click", function () {
+			drawImage();
+		});
+		$('#tupBtn').click(function () {
+			//alert("tupBtn");
+			drawImage();
+			$('#tupBtn').attr("disabled", true);
+			setTimeout(function () {
+				$('#tupBtn').removeAttr("disabled", true);
+			}, 4000);
+		});
+
+		//====================================webcam
+		var video = document.querySelector("#videoElement");
+		navigator.mediaDevices.getUserMedia({
+			audio: false,
+			video: true
+		}).then(function (stream) {
+			video.srcObject = stream;
+		}).catch(function (err0r) {
+			console.log("Something went wrong!");
+		});
+
+		var subscriptionKey = "6b310346475f44b9a97a7bca88a1f9d4";
+		var personGroup = "punch";
+		function postToApi(personId) {
+			console.log(personId);
+			var data = personId;
+			$.ajax({
+				url: "http://localhost:55619/api/punchApi",
+				method: "post",
+				contentType: 'application/json',
+				data: data,
+				success: console.log("success"),
+				async: false
+			}).done(function (data) {
+				console.log(data);
+				var snackbar = document.getElementById("snackbar");
+				snackbar.className = "show";
+				setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+			});
+			
+		}
+		//================================identify
+		function identify(faceid) {
+			var urlBase =
+				"https://eastasia.api.cognitive.microsoft.com/face/v1.0/identify";
+			$.ajax({
+				url: urlBase,
+				// Request headers.
+				beforeSend: function (xhrObj) {
+					xhrObj.setRequestHeader("Content-Type", "application/json");
+					xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+				},
+				type: "POST",
+				// Request body.
+				data: JSON.stringify({
+					"faceIds": [faceid],
+					"personGroupId": personGroup,
+					"confidenceThreshold": 0.5
+				}),
+				async: false
+			}).done(function (data) {
+				postToApi(data[0].candidates[0].personId);
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				// Display error message.
+				var errorString = (errorThrown === "") ?
+					"Error. " : errorThrown + " (" + jqXHR.status + "): ";
+				errorString += (jqXHR.responseText === "") ?
+					"" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+						jQuery.parseJSON(jqXHR.responseText).message :
+						jQuery.parseJSON(jqXHR.responseText).error.message;
+				alert("identify：" + errorString);
+			});
+		};
+		//====================================drawImage
+		function drawImage() {
+			cvs.width = video.videoWidth;
+			cvs.height = video.videoHeight;
+			var ctx1 = document.getElementById("cvs").getContext("2d").drawImage(video, 0, 0, cvs.width, cvs.height);
+			let imgData = cvs.toDataURL("image/jpeg");
+			fetch(imgData)
+				.then(res => res.blob())
+				.then(blobData => {
+					$.post({
+						url: "https://eastasia.api.cognitive.microsoft.com/face/v1.0/detect",
+						contentType: "application/octet-stream",
+						headers: {
+							'Ocp-Apim-Subscription-Key': subscriptionKey
+						},
+						processData: false,
+						data: blobData,
+						async: false
+					}).done(function (data) {
+						text = JSON.stringify(data);
+						identify(text.substr(12, 36));
+					}).fail(function (jqXHR, textStatus, errorThrown) {
+						// Display error message.
+						var errorString = (errorThrown === "") ?
+							"Error. " : errorThrown + " (" + jqXHR.status + "): ";
+						errorString += (jqXHR.responseText === "") ?
+							"" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+								jQuery.parseJSON(jqXHR.responseText).message :
+								jQuery.parseJSON(jqXHR.responseText).error.message;
+						alert(errorString);
+					});
+				})
+		}
+
+
+//=========</script>
+</body>
+</html>

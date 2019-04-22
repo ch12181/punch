@@ -1,0 +1,241 @@
+﻿
+@{
+	ViewBag.Title = "dashboard";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="animated fadeIn">
+	<div class="row">
+		<!--天氣-->
+		<div class="col-md-3 col-lg-3">
+			<div class="weather-wrapper">
+				<div class="weather-card madrid">
+					@{
+						string todayWeather = ViewBag.todayWeather;
+
+						if (todayWeather.IndexOf("雨") == -1)
+						{
+							@Html.Raw("<div class=\"weather-icon sun\"></div>");
+						}
+						else
+						{
+							@Html.Raw("<div class=\"weather-icon cloud\"></div>");
+						}
+
+					}
+					<h1> @ViewBag.todayTemp<!-- -->º</h1>
+					<p>Taichung</p>
+				</div>
+			</div>
+		</div>
+		<!--月曆-->
+		<div class="col-md-4 col-lg-4" style="margin-right:25px; margin-left:20px">
+			<div class="card">
+				<div class="card-body">
+					<!-- <h4 class="box-title">Chandler</h4> -->
+					<div class="calender-cont widget-calender">
+						<div id="calendar"></div>
+					</div>
+				</div>
+			</div><!-- /.card -->
+		</div>
+		<!--人數-->
+		<div class="col-md-3 col-lg-3">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="stat-widget-five">
+								<div class="stat-icon dib flat-color-3">
+									<i class="pe-7s-users"></i>
+								</div>
+								<div class="stat-content">
+									<div class="text-left dib">
+										@{
+											int empCount = ViewBag.empCount;
+										}
+										<div class="stat-text"><span class="count">@empCount</span></div>
+										<div class="stat-heading">員工人數</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="stat-widget-five">
+								<div class="stat-icon dib flat-color-1">
+									<i class="pe-7s-check"></i>
+								</div>
+								<div class="stat-content">
+									<div class="text-left dib">
+										@{
+											var arrived = ViewBag.arrived;
+										}
+										<div class="stat-text"><span class="count">@arrived</span></div>
+										<div class="stat-heading">實到人數</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="stat-widget-five">
+								<div class="stat-icon dib flat-color-4">
+									<i class="pe-7s-close-circle"></i>
+								</div>
+								<div class="stat-content">
+									<div class="text-left dib">
+										@{
+											var absent = ViewBag.absent;
+										}
+										<div class="stat-text"><span class="count">@absent</span></div>
+										<div class="stat-heading">未到人數</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<!--今日出勤-->
+		<div class="col-md-12" id="today-attendance">
+			<div class="card">
+				<div class="card-header">
+					<strong class="card-title">今日出勤狀況</strong>
+				</div>
+				<div class="table-stats ov-h">
+					<table class="table order-table" id="attendance-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>員工姓名</th>
+								<th>日期</th>
+								<th>上班時間</th>
+								<th>下班時間</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								var punchRecordList = ViewBag.list;
+								foreach (var punchRecord in punchRecordList)
+								{
+									<tr>
+										<td>
+											<span class="empID">@punchRecord.empID</span>
+										</td>
+										<td>
+											<span class="empName">@punchRecord.empName</span>
+										</td>
+										<td>
+											<span class="date">@punchRecord.date</span>
+										</td>
+										<td>
+											<span class="start">@punchRecord.start</span>
+										</td>
+										<td>
+											<span class="off">@punchRecord.off</span>
+										</td>
+										<td>
+											@{
+												if (punchRecord.status == "complete")
+												{
+													@Html.Raw("<span class=\"badge badge-complete\" id=\"status\">complete</span>");
+												}
+												else
+												{
+													@Html.Raw("<span class=\"badge badge-danger\" id=\"status\">　error　</span>");
+												}
+											}
+										</td>
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+				</div> <!-- /.table-stats -->
+			</div>
+		</div>
+	</div>
+	<!-- Modal - Calendar - Add New Event -->
+	<div class="modal fade none-border" id="event-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><strong>Add New Event</strong></h4>
+				</div>
+				<div class="modal-body"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
+					<button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /#event-modal -->
+	<!-- Modal - Calendar - Add Category -->
+	<div class="modal fade none-border" id="add-category">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><strong>Add a category </strong></h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="row">
+							<div class="col-md-6">
+								<label class="control-label">Category Name</label>
+								<input class="form-control form-white" placeholder="Enter name" type="text" name="category-name" />
+							</div>
+							<div class="col-md-6">
+								<label class="control-label">Choose Category Color</label>
+								<select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
+									<option value="success">Success</option>
+									<option value="danger">Danger</option>
+									<option value="info">Info</option>
+									<option value="pink">Pink</option>
+									<option value="primary">Primary</option>
+									<option value="warning">Warning</option>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger waves-effect waves-light save-category" data-dismiss="modal">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Script{
+	<!--Chartist Chart-->
+	<script src="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartist-plugin-legend@0.6.2/chartist-plugin-legend.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flot-pie@1.0.0/src/jquery.flot.pie.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flot-spline@0.0.1/js/jquery.flot.spline.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>
+	<script src="~/assets/js/init/fullcalendar-init.js"></script>
+}

@@ -1,0 +1,109 @@
+﻿
+@{
+	ViewBag.Title = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-12">
+	<div class="card">
+		<div class="card-header">
+			<strong>新增人員</strong>
+		</div>
+		<div class="row col-lg-12">
+			<div class="col-lg-6 card-body card-block">
+				<form method="post" data-ajax="false">
+					<fieldset>
+						<div class="row form-group">
+							<div class="col col-md-3"><label for="text-input" class=" form-control-label">員工編號</label></div>
+							<div class="col-12 col-md-9"><input type="text" id="id" name="id" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col col-md-3"><label for="text-input" class=" form-control-label">姓名</label></div>
+							<div class="col-12 col-md-9"><input type="text" id="firstName" name="firstName" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col col-md-3"><label for="select" class=" form-control-label">所屬部門</label></div>
+							<div class="col-12 col-md-9">
+								<select name="department" id="department" class="form-control">
+									<option value="人資">人資</option>
+									<option value="業務">業務</option>
+									<option value="會計">會計</option>
+									<option value="資訊">資訊</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col col-md-3"><label for="text-input" class=" form-control-label">電話</label></div>
+							<div class="col-12 col-md-9"><input type="text" id="phone" name="phone" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col col-md-3"><label for="text-input" class=" form-control-label">到職日期</label></div>
+							<div class="col-12 col-md-9"><input type="text" id="hiredate" name="hiredate" placeholder="YYYY-MM-DD" class="form-control"><small class="form-text text-muted"></small></div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col col-md-3"><label for="text-input" class=" form-control-label">地址</label></div>
+							<div class="col-12 col-md-9"><input type="text" id="address" name="address" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col col-md-3"><label for="text-input" class=" form-control-label">personID</label></div>
+							<div class="col-12 col-md-9"><input type="text" id="personID" name="personID" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col col-md-6 text-danger">
+								@ViewBag.message
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="button1"></label>
+							<div class="col-md-8">
+								<button id="button1" type="submit" name="btnOKCancel" value="OK" class="btn btn-success">確認</button>
+								&nbsp&nbsp&nbsp&nbsp
+								<button id="button2" type="submit" name="btnOKCancel" value="Cancel" class="btn btn-danger">取消</button>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="col-lg-6">
+				<div class="row">
+					<video class="player" id="video" width="400" height="300"></video>
+				</div>
+				<div class="row">
+					<div class="showPicture">
+						<!--展示拍照的地方-->
+						<div class="strip"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-6">
+						<button class="btn btn-primary" onClick="takePhoto()">拍照</button>
+						&nbsp&nbsp&nbsp&nbsp
+						<button class="btn btn-primary" onClick="faceapi()">送出</button>
+						<div id="snackbar">Some text some message..</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer">
+			<div>
+				<p>1.輸入員工資料 (personID不用輸入)</p>
+				<p>2.拍攝6張照片，拍完後按下送出</p>
+				<p>3.等待訓練完成 (需等候約15秒)</p>
+				<p>4.訓練完成後，按下確認鍵完成新增員工動作</p>
+			</div>
+		</div>
+	</div>
+</div>
+<canvas class="photoCanvas" id="photoCanvas"></canvas>
+
+@section Script{
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="~/assets/js/create-addface.js"></script>
+}

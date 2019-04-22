@@ -1,0 +1,138 @@
+﻿@model project_punch.Models.employee
+@{
+	ViewBag.Title = "Edit";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post" data-ajax="false">
+	<fieldset>
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-header">
+					<strong>編輯人員</strong>
+				</div>
+
+				<div class="card-body card-block">
+					<input type="hidden" value="@Model.empID">
+					@*<div class="row form-group">
+							<div class="col col-md-3"><label for="text-input" class=" form-control-label">員工編號</label></div>
+							<div class="col-12 col-md-9"><input type="text" id="id" name="id" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+						</div>*@
+
+					<div class="row form-group">
+						<div class="col col-md-3"><label for="text-input" class=" form-control-label">姓名</label></div>
+						<div class="col-12 col-md-9"><input type="text" id="firstName" name="firstName" value="@Model.empName" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+					</div>
+
+
+					<div class="row form-group">
+						<div class="col col-md-3"><label for="select" class=" form-control-label">所屬部門</label></div>
+						<div class="col-12 col-md-9">
+							<select name="department" id="department" class="form-control">
+								<option value="人資" @(Model.department == "人資" ? "selected" : "")>人資</option>
+								<option value="業務" @(Model.department == "業務" ? "selected" : "")>業務</option>
+								<option value="會計" @(Model.department == "會計" ? "selected" : "")>會計</option>
+								<option value="資訊" @(Model.department == "資訊" ? "selected" : "")>資訊</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col col-md-3"><label for="text-input" class=" form-control-label">電話</label></div>
+						<div class="col-12 col-md-9"><input type="text" id="phone" name="phone" value="@Model.phone" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col col-md-3"><label for="text-input" class=" form-control-label">到職日期</label></div>
+						@*<div class="col-12 col-md-9"><input type="text" id="hiredate" name="hiredate" value="@Model.hireDate.ToString().Substring(0,9)" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>*@
+						<div class="col-12 col-md-9"><input type="text" id="hiredate" name="hiredate" value="@Model.hireDate.ToString().Substring(0,9)" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col col-md-3"><label for="text-input" class=" form-control-label">地址</label></div>
+						<div class="col-12 col-md-9"><input type="text" id="address" name="address" value="@Model.address" placeholder="" class="form-control"><small class="form-text text-muted"></small></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="button1"></label>
+					<div class="col-md-8">
+						<button id="button1" type="submit" name="btnOKCancel" value="OK" class="btn btn-success">確認</button>
+						<button id="button2" type="submit" name="btnOKCancel" value="Cancel" class="btn btn-danger">取消</button>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		@*<input type="hidden" value="@Model.empID">
+
+
+
+
+			<div data-role="fieldcontain">
+				<label class="control-label" for="name">姓名</label>
+				<input type="text" id="firstName" name="firstName" value="@Model.empName" />
+
+			</div>
+
+			<div data-role="fieldcontain">
+				<label class="control-label" for="name">所屬部門</label>
+				<input type="text" id="department" name="department" value="@Model.department" />
+
+			</div>
+
+			<div data-role="fieldcontain">
+				<label class="control-label" for="name">電話</label>
+				<input type="text" id="phone" name="phone" value="@Model.phone" />
+
+			</div>
+
+			<div data-role="fieldcontain">
+				<label class="control-label" for="name">到職日期</label>
+				<input type="text" id="hireDate" name="hireDate" value="@Model.hireDate.ToString().Substring(0,9)" />
+
+			</div>
+
+			<div data-role="fieldcontain">
+				<label class="control-label" for="name">住址</label>
+				<input type="text" id="address" name="address" value="@Model.address" />
+
+			</div>
+
+			<div data-role="fieldcontain">
+				<label class="control-label" for="name">Personid</label>
+				<input type="text" id="personID" name="personID" value="@Model.personID" />
+
+			</div>*@
+
+		<!-- Button (Double) -->
+		@*<div class="form-group">
+			<label class="col-md-4 control-label" for="button1"></label>
+			<div class="col-md-8">
+				<button id="button1" type="submit" name="btnOKCancel" value="OK" class="btn btn-success">確認</button>
+				<button id="button2" type="submit" name="btnOKCancel" value="Cancel" class="btn btn-danger">取消</button>
+			</div>*@
+		@*</div>*@
+
+	</fieldset>
+	@*<div data-role="fieldcontain">
+			<label for="firstName">姓名</label>
+			<input type="text" id="firstName" name="firstName1" value="@Model.empName" />
+		</div>
+		<div data-role="fieldcontain">
+			<label for="department">所屬單位</label>
+			<input type="text" id="department" name="department" value="@Model.department" />
+		</div>*@
+	@*<div data-role="fieldcontain">
+			<label for="phone">電話</label>
+			<input type="text" id="phone" name="phone" value="@Model.phone" />
+		</div>*@
+
+	@*<div class="ui-grid-a">
+			<div class="ui-block-a"><input type="submit" name="btnOKCancel" value="OK" /></div>
+			<div class="ui-block-b"><input type="submit" name="btnOKCancel" value="Cancel" /></div>
+		</div>*@
+
+</form>
+

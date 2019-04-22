@@ -1,0 +1,82 @@
+﻿<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row searchbar">
+				<div class="col-md-1">
+					<label for="text-input" class="form-control-label" style="margin-top:8px">搜尋：</label>
+				</div>
+				<div class="col-md-6">
+					<input type="search" class="col-md-8 light-table-filter form-control" data-table="order-table" placeholder="">
+				</div>
+			</div>
+			<br>
+			<div class="card">
+				<div class="card-header">
+					<strong class="card-title">出勤紀錄</strong>
+				</div>
+				<div class="table-stats ov-h">
+					<table class="table order-table" id="attendance-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>員工姓名</th>
+								<th>日期</th>
+								<th>上班時間</th>
+								<th>下班時間</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								var punchRecordList = ViewBag.list;
+								foreach (var punchRecord in punchRecordList)
+								{
+									<tr>
+										<td>
+											<span class="empID">@punchRecord.empID</span>
+										</td>
+										<td>
+											<span class="empName">@punchRecord.empName</span>
+										</td>
+										<td>
+											<span class="date">@punchRecord.date</span>
+										</td>
+										<td>
+											<span class="start">@punchRecord.start</span>
+										</td>
+										<td>
+											<span class="off">@punchRecord.off</span>
+										</td>
+										<td>
+											@{
+												if (punchRecord.status == "complete")
+												{
+													@Html.Raw("<span class=\"badge badge-complete\" id=\"status\">complete</span>");
+												}
+												else
+												{
+													@Html.Raw("<span class=\"badge badge-danger\" id=\"status\">　error　</span>");
+												}
+											}
+										</td>
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+					<span id='table_page' style="float:right"></span>
+				</div> <!-- /.table-stats -->
+			</div>
+		</div>
+	</div>
+</div>
+@section Script{
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="~/assets/js/jquery-tablepage-1.0.js"></script>
+	<script src="~/assets/js/attendance.js"></script>
+	<script type="text/javascript">
+		// 使用 TablePage 功能，參數1是放分頁的 HTML 物件，例如 span，參數2是每頁幾筆
+		$("#attendance-table").tablepage($("#table_page"), 10);
+		
+	</script>
+}
