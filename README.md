@@ -11,4 +11,4 @@ DEMO
 <br>
 <a href="http://punch.azurewebsites.net/punch.html">打卡頁面</a>
 <br>
-<a href="https://punch.azurewebsites.net/">後台管理</a>
+<a href="https://punch.azurewebsites.net/dashboard/dashboard/">後台管理</a>
