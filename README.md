@@ -3,8 +3,6 @@
 資策會結訓專題
 臉部辨識打卡系統
 
-**程式碼為專題發表版本**
-
 DEMO
 <br>
 <a href="https://www.youtube.com/watch?v=pS5cymjQwRk">影片介紹</a>
